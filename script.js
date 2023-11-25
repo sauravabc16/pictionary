@@ -62,7 +62,7 @@ async function fetchImage(query) {
     }
 }
 
-let suggestions = [
+var suggestions = [
     "aircraft carrier",
     "airplane",
     "alarm clock",
