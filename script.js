@@ -1,67 +1,3 @@
-let shuffledSuggestions = shuffleArray([...suggestions]);
-let currentIndex = 0;
-
-document.getElementById('suggestButton').addEventListener('click', function() {
-    if (currentIndex >= shuffledSuggestions.length) {
-        shuffledSuggestions = shuffleArray([...suggestions]);
-        currentIndex = 0;
-    }
-
-    const suggestion = shuffledSuggestions[currentIndex++];
-    document.getElementById('suggestion').textContent = suggestion;
-    fetchImage(suggestion);
-});
-
-// Fisher-Yates (aka Knuth) Shuffle
-function shuffleArray(array) {
-    let currentIndex = array.length, temporaryValue, randomIndex;
-
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-        // Pick a remaining element...
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-
-        // And swap it with the current element.
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-
-    return array;
-}
-
-async function fetchImage(query) {
-    const apiKey = '8WBSyxeJJIkprZJ_8027n3G3r3PKQniC6x5fCcg_qUs';
-    const url = `https://api.unsplash.com/search/photos?page=1&query=${encodeURIComponent(query)}&client_id=${apiKey}`;
-
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        const image = data.results[0];
-
-        if (image) {
-            const imageUrl = image.urls.regular;
-            const downloadUrl = image.links.download_location;
-            const photographerName = image.user.name;
-            const photographerUrl = image.user.links.html;
-
-            document.getElementById('imageContainer').style.backgroundImage = `url(${imageUrl})`;
-            document.getElementById('attribution').innerHTML = `Photo by <a href="${photographerUrl}?utm_source=pictionary&utm_medium=referral">${photographerName}</a> on <a href="https://unsplash.com/?utm_source=pictionary&utm_medium=referral">Unsplash</a>`;
-
-            // Trigger download event
-            await fetch(`${downloadUrl}?client_id=${apiKey}`);
-        } else {
-            document.getElementById('imageContainer').style.backgroundImage = 'none';
-            document.getElementById('attribution').innerHTML = '';
-        }
-    } catch (error) {
-        console.error('Error fetching image:', error);
-        document.getElementById('imageContainer').style.backgroundImage = 'none';
-        document.getElementById('attribution').innerHTML = '';
-    }
-}
-
 var suggestions = [
     "aircraft carrier",
     "airplane",
@@ -487,3 +423,68 @@ var suggestions = [
     "zebra",
     "zigzag"
   ];
+
+let shuffledSuggestions = shuffleArray([...suggestions]);
+let currentIndex = 0;
+
+document.getElementById('suggestButton').addEventListener('click', function() {
+    if (currentIndex >= shuffledSuggestions.length) {
+        shuffledSuggestions = shuffleArray([...suggestions]);
+        currentIndex = 0;
+    }
+
+    const suggestion = shuffledSuggestions[currentIndex++];
+    document.getElementById('suggestion').textContent = suggestion;
+    fetchImage(suggestion);
+});
+
+// Fisher-Yates (aka Knuth) Shuffle
+function shuffleArray(array) {
+    let currentIndex = array.length, temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
+
+async function fetchImage(query) {
+    const apiKey = '8WBSyxeJJIkprZJ_8027n3G3r3PKQniC6x5fCcg_qUs';
+    const url = `https://api.unsplash.com/search/photos?page=1&query=${encodeURIComponent(query)}&client_id=${apiKey}`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const image = data.results[0];
+
+        if (image) {
+            const imageUrl = image.urls.regular;
+            const downloadUrl = image.links.download_location;
+            const photographerName = image.user.name;
+            const photographerUrl = image.user.links.html;
+
+            document.getElementById('imageContainer').style.backgroundImage = `url(${imageUrl})`;
+            document.getElementById('attribution').innerHTML = `Photo by <a href="${photographerUrl}?utm_source=pictionary&utm_medium=referral">${photographerName}</a> on <a href="https://unsplash.com/?utm_source=pictionary&utm_medium=referral">Unsplash</a>`;
+
+            // Trigger download event
+            await fetch(`${downloadUrl}?client_id=${apiKey}`);
+        } else {
+            document.getElementById('imageContainer').style.backgroundImage = 'none';
+            document.getElementById('attribution').innerHTML = '';
+        }
+    } catch (error) {
+        console.error('Error fetching image:', error);
+        document.getElementById('imageContainer').style.backgroundImage = 'none';
+        document.getElementById('attribution').innerHTML = '';
+    }
+}
+
