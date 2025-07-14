@@ -558,7 +558,7 @@ function shuffleArray(array) {
 }
 
 async function fetchImage(query) {
-    const apiKey = '8WBSyxeJJIkprZJ_8027n3G3r3PKQniC6x5fCcg_qUs';
+    const apiKey = '__UNSPLASH_API_KEY__';
     const url = `https://api.unsplash.com/search/photos?page=1&query=${encodeURIComponent(query)}&client_id=${apiKey}`;
 
     try {
